@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link-Shortner | RebelCorp</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: rgb(236, 22, 0);
+
+        }
+
+        .wrapper {
+            display: flex;
+            justify-content: center;
+            align-items:center;
+            margin:0 auto;
+            width: 95vw;
+            max-width: 650px;
+            height: 100vh;
+            /* background-color: rgb(236, 22, 0); */
+            padding: 30px;
+            
+        }
+
+        .template{
+            margin: auto;
+            height: 50%;
+             background-color: #fff;
+             padding: 30px;
+             border-radius: 10px;
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+
+        }
+
+        input {
+            padding: 0.6rem 0.3rem;
+            border-radius: 0.2rem;
+            font-size: 1.2rem;
+            outline: none;
+            border: none;
+            margin: 0.5rem;
+            /* flex: 1; */
+            box-shadow: 0 0 14px 14px #ebebeb;
+        }
+
+        .input-container {
+            margin-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* background-color: rgb(236,22,0); */
+            padding: 1rem 1.5rem;
+            /* position: relative; */
+            width: fit-content;
+            border-radius: 0.3rem;
+            /* overflow: hidden; */
+        }
+
+        .input-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.2rem;
+            color: #fff;
+            font-size: 1rem;
+            text-align: center;
+            /* background: cyan; */
+            background-color: rgba(1, 144, 1, 0.904);
+            cursor: pointer;
+            outline: none;
+            border: none;
+        }
+        .result{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .newUrl-btn{
+            padding: 6px 10px;
+            border-radius: 2px;
+            border: 1px solid gray;
+        }
+        @media only screen and (max-width:500px){
+            .template{
+                padding: 30px 20px;      
+            }
+            .input-container{
+                display: flex;
+                flex-direction: column;
+                justify-content:center;
+                align-items: center;
+                padding: 10px;
+                width: 100%;
+            }
+            .result{
+                margin-top: 20px;
+            }
+            
+        } 
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="template">
+            <h1>Shorten Url link</h1>
+            <section class="link-input">
+                <form class="input-container">
+                    <input type="text" placeholder="Shorten a link here" required />
+                    <button type="submit" class="input-btn">Shorten it!</button>
+                </form>
+            </section>
+            <div class="result">
+
+            </div>
+        </div>
+    </div>
+    <script>
+        const selectElement = (selector) => {
+  const element = document.querySelector(selector);
+  if (element) return element;
+  throw new Error(`Cannot find the element ${selector}`);
+};
+
+const form = selectElement("form");
+const input = selectElement("input");
+const result = selectElement(".result");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const url = input.value;
+
+  shortenUrl(url);
+});
+
+// Shortening Url Function
+async function shortenUrl(url) {
+  try {
+    const res = await fetch(`https://api.shrtco.de/v2/shorten?url=${url}`);
+    const data = await res.json();
+    const newUrl = document.createElement("div");
+    newUrl.classList.add("item");
+    newUrl.innerHTML = `
+   <p> ${data.result.short_link}</p>
+   <button class="newUrl-btn" >Copy</button>
+   `;
+    result.prepend(newUrl);
+    const copyBtn = result.querySelector(".newUrl-btn");
+    copyBtn.addEventListener("click", () => {
+      navigator.clipboard.writeText(copyBtn.previousElementSibling.textContent);
+    });
+    input.value = "";
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+    </script>
+</body>
+
+</html>
