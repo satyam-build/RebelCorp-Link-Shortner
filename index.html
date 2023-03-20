@@ -7,8 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Link-Shortner | RebelCorp</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
         * {
             box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
@@ -30,10 +33,12 @@
             padding: 30px;
             
         }
-
+        h1{
+            font-weight: 600;
+        }
         .template{
             margin: auto;
-            height: 50%;
+            height: fit-content;
              background-color: #fff;
              padding: 30px;
              border-radius: 10px;
@@ -79,17 +84,46 @@
             outline: none;
             border: none;
         }
+        .input-btn:hover{
+            background-color: rgba(0, 173, 0, 0.904);
+
+        }
         .result{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            margin-top: 20px;
+            width:80% ;
+            padding: 5 10px;
+            /* color: #fff; */
+            /* background-color: rgb(236, 22, 0); */
+            background-color: #fff;
+            box-shadow: 0 0 10px 10px rgb(244, 243, 243);
+            /* text-align: center; */
+        }
+        .result p{
+            display: inline-block;
+            margin: 10px;
+            width: 50%;
+            text-align: left;
+        }
+        .newUrl-btnWrapper{
+            display: inline-block;
+            width: 40%;
+            text-align: right;
+
         }
         .newUrl-btn{
+            margin: 10px;
+            text-align: right;
             padding: 6px 10px;
             border-radius: 2px;
-            border: 1px solid gray;
+            background-color: #fff;
+            box-shadow:0 0 5px 5px #e8e8e8;
+            /* box-shadow: 0 0 5px 5px #e2e1e1; */
+            border: 0;
+            transition: 0.2s ease;
+        }
+        .newUrl-btn:hover{
+            background-color: #f1f1f1;
+            /* box-shadow: 0 0 5px 5px #c5c5c5; */
         }
         @media only screen and (max-width:500px){
             .template{
@@ -106,6 +140,15 @@
             .result{
                 margin-top: 20px;
             }
+            .result p{
+                font-size: 14px;
+                text-align: center;
+                width: fit-content;
+            }
+            .newUrl-btnWrapper{
+                width: fit-content;
+                text-align: right;
+            }
             
         } 
     </style>
@@ -114,10 +157,10 @@
 <body>
     <div class="wrapper">
         <div class="template">
-            <h1>Shorten Url link</h1>
+            <h1>Shorten Your Url </h1>
             <section class="link-input">
                 <form class="input-container">
-                    <input type="text" placeholder="Shorten a link here" required />
+                    <input type="text" placeholder="Enter the Url" required />
                     <button type="submit" class="input-btn">Shorten it!</button>
                 </form>
             </section>
@@ -153,7 +196,7 @@ async function shortenUrl(url) {
     newUrl.classList.add("item");
     newUrl.innerHTML = `
    <p> ${data.result.short_link}</p>
-   <button class="newUrl-btn" >Copy</button>
+   <div class="newUrl-btnWrapper"><button class="newUrl-btn" >Copy</button></div>
    `;
     result.prepend(newUrl);
     const copyBtn = result.querySelector(".newUrl-btn");
